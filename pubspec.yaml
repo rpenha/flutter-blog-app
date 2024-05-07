@@ -88,3 +88,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-VariableFont_wght.ttf
+        - asset: assets/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf
+          style: italic
