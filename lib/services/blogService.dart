@@ -8,18 +8,18 @@ class BlogService {
   Future<List<PostSummary>> getSummaries() async {
     final collection = await contentful.getEntries<PostSummary>({
       'content_type': 'post',
-      'limit': '10',
+      'limit': '20',
       'skip': '0',
       'order': '-sys.createdAt',
-      // 'select': [
-      //   'fields.title',
-      //   'fields.slug',
-      //   'fields.author',
-      //   //'fields.category',
-      //   'fields.cover',
-      //   'fields.summary',
-      //   //'sys.createdAt'
-      // ].join(',')
+      'select': [
+        'fields.title',
+        'fields.slug',
+        'fields.author',
+        'fields.category',
+        'fields.cover',
+        'fields.summary',
+        'sys'
+      ].join(',')
     }, PostSummary.fromJson);
 
     return collection.items;
