@@ -5,14 +5,17 @@ import 'package:blog_app/services/blogService.dart';
 import 'package:blog_app/widgets/postSummarySection.dart';
 import 'package:blog_app/models/postSummary.dart';
 
-class PostsList extends StatefulWidget {
-  const PostsList({super.key});
+class PostsScreen extends StatefulWidget {
+  const PostsScreen({super.key});
 
   @override
-  _PostsListState createState() => _PostsListState();
+  _PostsScreenState createState() => _PostsScreenState();
 }
 
-class _PostsListState extends State<PostsList> {
+class _PostsScreenState extends State<PostsScreen> {
+
+  List<PostSummarySection> posts = [];
+
   final service = BlogService(Client(
       BearerTokenHTTPClient(dotenv.env['CONTENTFUL_API_KEY']!),
       spaceId: dotenv.env['CONTENTFUL_SPACE_ID']!));
@@ -24,8 +27,6 @@ class _PostsListState extends State<PostsList> {
           items.map((item) => PostSummarySection(postSummary: item)).toList();
     });
   }
-
-  List<PostSummarySection> posts = [];
 
   @override
   void initState() {
