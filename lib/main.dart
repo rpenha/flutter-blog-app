@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         // appBar: AppBar(
         //   title: const Text(appTitle),
         // ),
-        body:  const PostListWidget(),
+        body:  PostListWidget(),
       )
     );
   }
