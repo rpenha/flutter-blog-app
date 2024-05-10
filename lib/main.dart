@@ -1,63 +1,126 @@
+import 'package:blog_app/models/postSummary.dart';
+import 'package:blog_app/services/blogService.dart';
+import 'package:contentful/client.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() => runApp(const MyApp());
+Future main() async {
+  await dotenv.load(fileName: ".env");
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const String appTitle = 'This must be the place';
+    //const String appTitle = 'This must be the place';
     return MaterialApp(
-      title: appTitle,
+      //title: appTitle,
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'JetBrainsMono',
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(appTitle),
-        ),
-        body: const SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PostSummarySection(
-                  coverImage:
-                      'https://images.ctfassets.net/xj8ro83rjak0/19Hy9qmp6jVtfA7xw8appC/68b2ac20070bfd93e79685fd9bc029d5/cd2f68ab4f875e716f34c6fbafad0fb7.jpg',
-                  title:
-                      'Gentlemen, Shall We Discuss the F1 Conundrum? Senna vs. Prost: A Delightfully Complex Tango',
-                  author: 'Hans Landa',
-                  summary:
-                      'F1 legends Senna & Prost: Rainmaster vs. The Professor. Passionate brilliance battles strategic finesse in an unforgettable rivalry that defines F1 greatness. Who wins? You decide!'),
-              PostSummarySection(
-                  coverImage:
-                      'https://images.ctfassets.net/xj8ro83rjak0/JxaRK31FuwF6rH7CWZXqA/2c4cd99c2fda6ea6f2e370a2654a5002/js-sucks.png',
-                  title:
-                      'Ah, Javascript on the Server? Mijo, That\'s a One-Way Ticket to Donkey Town!',
-                  author: 'Hans Landa',
-                  summary:
-                      'F1 legends Senna & Prost: Rainmaster vs. The Professor. Passionate brilliance battles strategic finesse in an unforgettable rivalry that defines F1 greatness. Who wins? You decide!'),
-            ],
-          ),
-        ),
+      home:const Scaffold(
+        // appBar: AppBar(
+        //   title: const Text(appTitle),
+        // ),
+        body:  const PostListWidget(),
+      )
+    );
+  }
+}
+
+// class HomeController extends GetxController {
+//   final service = BlogService(Client(
+//       BearerTokenHTTPClient(String.fromEnvironment('CONTENTFUL_API_KEY')),
+//       spaceId: const String.fromEnvironment('CONTENTFUL_SPACE_ID')));
+//
+//   Rx<dynamic> data = Rx(null);
+//
+//   Future<void> getSummaries() async {
+//     data.value = await service.getSummaries();
+//   }
+// }
+
+class PostListWidget extends StatefulWidget {
+  const PostListWidget({super.key});
+
+  @override
+  _PostListWidgetState createState() => _PostListWidgetState();
+}
+
+class _PostListWidgetState extends State<PostListWidget> {
+  final service = BlogService(Client(
+      BearerTokenHTTPClient(dotenv.env['CONTENTFUL_API_KEY']!),
+      spaceId: dotenv.env['CONTENTFUL_SPACE_ID']!));
+
+  void fetchData() async {
+    List<PostSummary> items = await service.getSummaries();
+    setState(() {
+      posts =
+          items.map((item) => PostSummarySection(postSummary: item)).toList();
+    });
+  }
+
+  List<PostSummarySection> posts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: posts,
       ),
     );
   }
 }
 
-class PostSummarySection extends StatelessWidget {
-  const PostSummarySection(
-      {super.key,
-      required this.coverImage,
-      required this.title,
-      required this.author,
-      required this.summary});
+// class HomeWidget extends StatefulWidget {
+//   const HomeWidget({super.key});
+//
+//   Widget getSummaries(List<PostSummary> items) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: items.map((item) => PostSummarySection(postSummary: item)).toList(),
+//     );
+//   }
+//
+//   // @override
+//   // Widget build(BuildContext context) {
+//   //   return GetBuilder<HomeController>(
+//   //     init: HomeController(),
+//   //     builder: (controller) => const Scaffold(
+//   //       // appBar: AppBar(
+//   //       //   title: const Text(appTitle),
+//   //       // ),
+//   //       body: SingleChildScrollView(
+//   //         child: Column(
+//   //           crossAxisAlignment: CrossAxisAlignment.start,
+//   //           children: [],
+//   //         ),
+//   //       ),
+//   //     ),
+//   //   );
+//   // }
+//
+//   @override
+//   State<StatefulWidget> createState() {
+//     // TODO: implement createState
+//     throw UnimplementedError();
+//   }
+// }
 
-  final String coverImage;
-  final String title;
-  final String author;
-  final String summary;
+class PostSummarySection extends StatelessWidget {
+  const PostSummarySection({super.key, required this.postSummary});
+
+  final PostSummary postSummary;
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +129,11 @@ class PostSummarySection extends StatelessWidget {
       children: [
         Column(
           children: [
-            CoverImage(image: coverImage),
+            CoverImage(image: postSummary.fields!.cover.fields!.file.url),
             TitleSection(
-              title: title,
-              author: author,
-              summary: summary,
+              title: postSummary.fields!.title,
+              author: postSummary.fields!.author.fields!.name,
+              summary: postSummary.fields!.summary,
             ),
           ],
         )
@@ -152,10 +215,15 @@ class CoverImage extends StatelessWidget {
 
   final String image;
 
+  static String getImageUrl(String image) {
+    return 'https:$image';
+  }
+
   @override
   Widget build(BuildContext context) {
+    String url = getImageUrl(image);
     return Image.network(
-      image,
+      url,
       fit: BoxFit.cover,
     );
   }
