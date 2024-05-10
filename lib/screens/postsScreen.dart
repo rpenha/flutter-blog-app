@@ -1,3 +1,4 @@
+import 'package:blog_app/screens/AppScreen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:contentful/contentful.dart';
@@ -21,7 +22,7 @@ class _PostsScreenState extends State<PostsScreen> {
       spaceId: dotenv.env['CONTENTFUL_SPACE_ID']!));
 
   void fetchData() async {
-    List<PostSummary> items = await service.getSummaries();
+    List<PostSummary> items = await service.getPostsSummaries();
     setState(() {
       posts =
           items.map((item) => PostSummarySection(postSummary: item)).toList();
@@ -36,11 +37,11 @@ class _PostsScreenState extends State<PostsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return BlogApp(body: SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: posts,
       ),
-    );
+    ));
   }
 }

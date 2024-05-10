@@ -5,7 +5,7 @@ import 'package:blog_app/models/postSummary.dart';
 import 'coverSection.dart';
 
 class PostSummarySection extends StatelessWidget {
-  PostSummarySection({super.key, required this.postSummary});
+  const PostSummarySection({super.key, required this.postSummary});
 
   final PostSummary postSummary;
 
@@ -26,10 +26,11 @@ class PostSummarySection extends StatelessWidget {
             FlatButton(
                 label: 'Read more',
                 onPressed: () {
-                  print('Pressed');
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const PostScreen()),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            PostScreen(postId: postSummary.sys!.id)),
                   );
                 })
           ],
