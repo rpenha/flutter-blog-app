@@ -31,18 +31,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class HomeController extends GetxController {
-//   final service = BlogService(Client(
-//       BearerTokenHTTPClient(String.fromEnvironment('CONTENTFUL_API_KEY')),
-//       spaceId: const String.fromEnvironment('CONTENTFUL_SPACE_ID')));
-//
-//   Rx<dynamic> data = Rx(null);
-//
-//   Future<void> getSummaries() async {
-//     data.value = await service.getSummaries();
-//   }
-// }
-
 class PostListWidget extends StatefulWidget {
   const PostListWidget({super.key});
 
@@ -81,41 +69,6 @@ class _PostListWidgetState extends State<PostListWidget> {
     );
   }
 }
-
-// class HomeWidget extends StatefulWidget {
-//   const HomeWidget({super.key});
-//
-//   Widget getSummaries(List<PostSummary> items) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: items.map((item) => PostSummarySection(postSummary: item)).toList(),
-//     );
-//   }
-//
-//   // @override
-//   // Widget build(BuildContext context) {
-//   //   return GetBuilder<HomeController>(
-//   //     init: HomeController(),
-//   //     builder: (controller) => const Scaffold(
-//   //       // appBar: AppBar(
-//   //       //   title: const Text(appTitle),
-//   //       // ),
-//   //       body: SingleChildScrollView(
-//   //         child: Column(
-//   //           crossAxisAlignment: CrossAxisAlignment.start,
-//   //           children: [],
-//   //         ),
-//   //       ),
-//   //     ),
-//   //   );
-//   // }
-//
-//   @override
-//   State<StatefulWidget> createState() {
-//     // TODO: implement createState
-//     throw UnimplementedError();
-//   }
-// }
 
 class PostSummarySection extends StatelessWidget {
   const PostSummarySection({super.key, required this.postSummary});
