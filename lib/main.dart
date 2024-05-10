@@ -3,6 +3,7 @@ import 'package:blog_app/services/blogService.dart';
 import 'package:contentful/client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:moment_dart/moment_dart.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -87,6 +88,7 @@ class PostSummarySection extends StatelessWidget {
               title: postSummary.fields!.title,
               author: postSummary.fields!.author.fields!.name,
               summary: postSummary.fields!.summary,
+              createdAt: postSummary.sys!.createdAt,
             ),
           ],
         )
@@ -101,11 +103,13 @@ class TitleSection extends StatelessWidget {
     required this.title,
     required this.author,
     required this.summary,
+    required this.createdAt
   });
 
   final String title;
   final String author;
   final String summary;
+  final DateTime? createdAt;
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +145,7 @@ class TitleSection extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'April 15, 2024',
+                          Moment(createdAt!).fromNow(),
                           style: TextStyle(
                             color: Colors.grey[500],
                           ),
