@@ -1,4 +1,6 @@
 import 'package:blog_app/widgets/blog_app.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:contentful/contentful.dart';
@@ -22,7 +24,7 @@ class PostListView extends StatefulWidget {
   const PostListView({super.key});
 
   @override
-  _PostListViewState createState() => _PostListViewState();
+  State<PostListView> createState() => _PostListViewState();
 }
 
 class _PostListViewState extends State<PostListView> {
@@ -45,7 +47,9 @@ class _PostListViewState extends State<PostListView> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      print('Loading page ${pageKey ~/ _pageSize}');
+      if (kDebugMode) {
+        print('Loading page ${pageKey ~/ _pageSize}');
+      }
       final List<PostSummary> items =
           await service.getPostsSummaries(pageKey, _pageSize);
       final isLastPage = items.length < _pageSize;
@@ -61,7 +65,11 @@ class _PostListViewState extends State<PostListView> {
   }
 
   @override
-  Widget build(BuildContext context) => PagedListView<int, PostSummary>(
+  Widget build(BuildContext context) => RefreshIndicator(
+      onRefresh: () => Future.sync(
+            () => _pagingController.refresh(),
+          ),
+      child: PagedListView<int, PostSummary>(
         pagingController: _pagingController,
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -70,7 +78,7 @@ class _PostListViewState extends State<PostListView> {
             summary: item,
           ),
         ),
-      );
+      ));
 
   @override
   void dispose() {
