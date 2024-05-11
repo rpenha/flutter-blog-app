@@ -1,10 +1,39 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'postSummary.dart';
+part of 'blog.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
+
+Post _$PostFromJson(Map<String, dynamic> json) => Post(
+      sys: SystemFields.fromJson(json['sys'] as Map<String, dynamic>),
+      fields: PostFields.fromJson(json['fields'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+      'sys': instance.sys,
+      'fields': instance.fields,
+    };
+
+PostFields _$PostFieldsFromJson(Map<String, dynamic> json) => PostFields(
+      title: json['title'] as String,
+      slug: json['slug'] as String,
+      author: Author.fromJson(json['author'] as Map<String, dynamic>),
+      summary: json['summary'] as String,
+      cover: Cover.fromJson(json['cover'] as Map<String, dynamic>),
+      body: json['body'],
+    );
+
+Map<String, dynamic> _$PostFieldsToJson(PostFields instance) =>
+    <String, dynamic>{
+      'title': instance.title,
+      'slug': instance.slug,
+      'author': instance.author,
+      'summary': instance.summary,
+      'cover': instance.cover,
+      'body': instance.body,
+    };
 
 PostSummary _$PostSummaryFromJson(Map<String, dynamic> json) => PostSummary(
       sys: SystemFields.fromJson(json['sys'] as Map<String, dynamic>),

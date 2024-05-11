@@ -1,10 +1,10 @@
-import 'package:blog_app/screens/AppScreen.dart';
+import 'package:blog_app/widgets/BlogApp.dart';
+import 'package:blog_app/widgets/postSection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:contentful/client.dart';
-import 'package:blog_app/models/postSummary.dart';
-import 'package:blog_app/widgets/postSummarySection.dart';
+import 'package:blog_app/models/blog.dart';
 import 'package:blog_app/services/blogService.dart';
 
 class PostScreen extends StatefulWidget {
@@ -25,9 +25,9 @@ class _PostScreenState extends State<PostScreen> {
       spaceId: dotenv.env['CONTENTFUL_SPACE_ID']!));
 
   void fetchData() async {
-    PostSummary post = await service.getPostById(widget.postId);
+    Post post = await service.getPostById(widget.postId);
     setState(() {
-      postSection = PostSummarySection(postSummary: post);
+      postSection = PostSection(post: post);
     });
   }
 

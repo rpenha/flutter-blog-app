@@ -1,7 +1,8 @@
 import 'package:blog_app/screens/postScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:blog_app/widgets/titleSection.dart';
-import 'package:blog_app/models/postSummary.dart';
+import 'package:blog_app/models/blog.dart';
 import 'coverSection.dart';
 
 class PostSummarySection extends StatelessWidget {
@@ -23,16 +24,18 @@ class PostSummarySection extends StatelessWidget {
               summary: postSummary.fields!.summary,
               createdAt: postSummary.sys!.createdAt,
             ),
-            FlatButton(
-                label: 'Read more',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            PostScreen(postId: postSummary.sys!.id)),
-                  );
-                })
+            Padding(
+                padding: const EdgeInsets.only(bottom: 32),
+                child: FlatButton(
+                    label: 'Tell me more...',
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PostScreen(postId: postSummary.sys!.id)),
+                      );
+                    }))
           ],
         )
       ],

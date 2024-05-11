@@ -1,5 +1,5 @@
-import 'package:blog_app/models/postSummary.dart' show PostSummary;
 import 'package:contentful/contentful.dart';
+import 'package:blog_app/models/blog.dart' show Post, PostSummary;
 
 class BlogService {
   BlogService(this.contentful);
@@ -25,8 +25,8 @@ class BlogService {
     return collection.items;
   }
 
-  Future<PostSummary> getPostById(String id) async {
-    final collection = await contentful.getEntries<PostSummary>({
+  Future<Post> getPostById(String id) async {
+    final collection = await contentful.getEntries<Post>({
       'content_type': 'post',
       'sys.id': id,
       'limit': '1',
@@ -37,9 +37,10 @@ class BlogService {
         'fields.category',
         'fields.cover',
         'fields.summary',
+        'fields.body',
         'sys'
       ].join(',')
-    }, PostSummary.fromJson);
+    }, Post.fromJson);
 
     return collection.items.first;
   }

@@ -32,6 +32,7 @@ class TitleSection extends StatelessWidget {
                   child: Text(
                     title,
                     style: const TextStyle(
+                      color: Color.fromRGBO(85, 85, 85, 1),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -44,8 +45,8 @@ class TitleSection extends StatelessWidget {
                         Text(
                           author,
                           style: TextStyle(
-                            fontStyle: FontStyle.italic,
                             color: Colors.grey[500],
+                            fontStyle: FontStyle.italic,
                           ),
                         ),
                         Text(

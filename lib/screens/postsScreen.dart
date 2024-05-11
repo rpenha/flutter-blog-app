@@ -1,10 +1,10 @@
-import 'package:blog_app/screens/AppScreen.dart';
+import 'package:blog_app/widgets/BlogApp.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:contentful/contentful.dart';
 import 'package:blog_app/services/blogService.dart';
 import 'package:blog_app/widgets/postSummarySection.dart';
-import 'package:blog_app/models/postSummary.dart';
+import 'package:blog_app/models/blog.dart';
 
 class PostsScreen extends StatefulWidget {
   const PostsScreen({super.key});

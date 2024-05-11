@@ -2,7 +2,45 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:contentful/contentful.dart';
 
-part 'postSummary.g.dart';
+part 'blog.g.dart';
+
+@JsonSerializable()
+class Post extends Entry<PostFields> {
+  Post({
+    required SystemFields sys,
+    required PostFields fields,
+  }) : super(sys: sys, fields: fields);
+
+  static Post fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PostToJson(this);
+}
+
+@JsonSerializable()
+class PostFields extends Equatable {
+  const PostFields(
+      {required this.title,
+      required this.slug,
+      required this.author,
+      required this.summary,
+      required this.cover,
+      required this.body});
+
+  final String title;
+  final String slug;
+  final Author author;
+  final String summary;
+  final Cover cover;
+  final dynamic body;
+
+  @override
+  List<Object> get props => [title, slug, author, summary, cover, body];
+
+  static PostFields fromJson(Map<String, dynamic> json) =>
+      _$PostFieldsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PostFieldsToJson(this);
+}
 
 @JsonSerializable()
 class PostSummary extends Entry<PostSummaryFields> {
@@ -11,20 +49,20 @@ class PostSummary extends Entry<PostSummaryFields> {
     required PostSummaryFields fields,
   }) : super(sys: sys, fields: fields);
 
-  static PostSummary fromJson(Map<String, dynamic> json) => _$PostSummaryFromJson(json);
+  static PostSummary fromJson(Map<String, dynamic> json) =>
+      _$PostSummaryFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostSummaryToJson(this);
 }
 
 @JsonSerializable()
 class PostSummaryFields extends Equatable {
-  const PostSummaryFields({
-    required this.title,
-    required this.slug,
-    required this.author,
-    required this.summary,
-    required this.cover
-  });
+  const PostSummaryFields(
+      {required this.title,
+      required this.slug,
+      required this.author,
+      required this.summary,
+      required this.cover});
 
   final String title;
   final String slug;
@@ -55,10 +93,7 @@ class Author extends Entry<AuthorFields> {
 
 @JsonSerializable()
 class AuthorFields extends Equatable {
-  const AuthorFields({
-    required this.name,
-    required this.slug
-});
+  const AuthorFields({required this.name, required this.slug});
 
   final String name;
   final String slug;
@@ -86,11 +121,8 @@ class Cover extends Entry<CoverFields> {
 
 @JsonSerializable()
 class CoverFields extends Equatable {
-  const CoverFields({
-    required this.title,
-    required this.description,
-    required this.file
-  });
+  const CoverFields(
+      {required this.title, required this.description, required this.file});
 
   final String title;
   final String description;
@@ -107,11 +139,8 @@ class CoverFields extends Equatable {
 
 @JsonSerializable()
 class File extends Equatable {
-  const File({
-    required this.url,
-    required this.fileName,
-    required this.contentType
-  });
+  const File(
+      {required this.url, required this.fileName, required this.contentType});
 
   final String url;
   final String fileName;
@@ -120,8 +149,7 @@ class File extends Equatable {
   @override
   List<Object?> get props => [url, fileName, contentType];
 
-  static File fromJson(Map<String, dynamic> json) =>
-      _$FileFromJson(json);
+  static File fromJson(Map<String, dynamic> json) => _$FileFromJson(json);
 
   Map<String, dynamic> toJson() => _$FileToJson(this);
 }

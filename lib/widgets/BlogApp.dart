@@ -13,6 +13,7 @@ class BlogApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           fontFamily: 'JetBrainsMono',
+          scaffoldBackgroundColor: const Color.fromRGBO(238, 238, 238, 1),
         ),
         home: Scaffold(
           // appBar: AppBar(
