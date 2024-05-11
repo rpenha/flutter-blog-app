@@ -2,9 +2,9 @@ import 'package:contentful_rich_text/types/blocks.dart';
 import 'package:contentful_rich_text/types/types.dart';
 import 'package:flutter/material.dart';
 import 'package:contentful_rich_text/contentful_rich_text.dart';
-import 'package:blog_app/widgets/titleSection.dart';
+import 'package:blog_app/widgets/title_section.dart';
 import 'package:blog_app/models/blog.dart';
-import 'coverSection.dart';
+import 'cover_section.dart';
 
 // var options = {
 //   renderMark: RenderMark defaultMarkRenderers = RenderMark({

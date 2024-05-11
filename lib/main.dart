@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:blog_app/screens/postsScreen.dart';
+import 'package:blog_app/screens/posts_screen.dart';
 
 Future main() async {
   DartPluginRegistrant.ensureInitialized();

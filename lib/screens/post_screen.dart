@@ -1,11 +1,11 @@
-import 'package:blog_app/screens/postsScreen.dart';
-import 'package:blog_app/widgets/blogApp.dart';
-import 'package:blog_app/widgets/postSection.dart';
+import 'package:blog_app/screens/posts_screen.dart';
+import 'package:blog_app/widgets/blog_app.dart';
+import 'package:blog_app/widgets/post_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:contentful/client.dart';
 import 'package:blog_app/models/blog.dart';
-import 'package:blog_app/services/blogService.dart';
+import 'package:blog_app/services/blog_service.dart';
 import 'package:share_plus/share_plus.dart';
 
 class PostScreen extends StatefulWidget {

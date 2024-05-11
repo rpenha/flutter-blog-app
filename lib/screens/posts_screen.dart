@@ -1,9 +1,9 @@
-import 'package:blog_app/widgets/blogApp.dart';
+import 'package:blog_app/widgets/blog_app.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:contentful/contentful.dart';
-import 'package:blog_app/services/blogService.dart';
-import 'package:blog_app/widgets/postSummarySection.dart';
+import 'package:blog_app/services/blog_service.dart';
+import 'package:blog_app/widgets/post_summary_section.dart';
 import 'package:blog_app/models/blog.dart';
 
 class PostsScreen extends StatefulWidget {
