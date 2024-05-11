@@ -51,41 +51,28 @@ class FlatButton extends StatelessWidget {
 
   final ButtonStyle flatButtonStyle = TextButton.styleFrom(
     foregroundColor: Colors.white70,
-    minimumSize: const Size(88, 36),
+    minimumSize: const Size.fromHeight(40),
     backgroundColor: const Color.fromRGBO(85, 85, 85, 1),
-    padding: const EdgeInsets.symmetric(horizontal: 16),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(2)),
     ),
   );
 
-  // final ButtonStyle outlineButtonStyle = OutlinedButton.styleFrom(
-  //   foregroundColor: Colors.black87,
-  //   minimumSize: const Size(88, 36),
-  //   padding: const EdgeInsets.symmetric(horizontal: 16),
-  //   shape: const RoundedRectangleBorder(
-  //     borderRadius: BorderRadius.all(Radius.circular(2)),
-  //   ),
-  // ).copyWith(
-  //   side: MaterialStateProperty.resolveWith<BorderSide?>(
-  //     (Set<MaterialState> states) {
-  //       if (states.contains(MaterialState.pressed)) {
-  //         return const BorderSide(
-  //           color: Color.fromRGBO(85, 85, 85, 1),
-  //           width: 1,
-  //         );
-  //       }
-  //       return null;
-  //     },
-  //   ),
-  // );
-
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: flatButtonStyle,
-      onPressed: onPressed,
-      child: Text(label),
+    return Row(
+      children: [
+        Flexible(
+            flex: 1, // Occupy all available space
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: TextButton(
+                style: flatButtonStyle,
+                onPressed: onPressed,
+                child: Text(label),
+              ),
+            )),
+      ],
     );
   }
 }
