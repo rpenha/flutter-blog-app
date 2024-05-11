@@ -5,11 +5,11 @@ class BlogService {
   BlogService(this.contentful);
   final Client contentful;
 
-  Future<List<PostSummary>> getPostsSummaries() async {
+  Future<List<PostSummary>> getPostsSummaries(pageKey, size) async {
     final collection = await contentful.getEntries<PostSummary>({
       'content_type': 'post',
-      'limit': '20',
-      'skip': '0',
+      'limit': size.toString(),
+      'skip': pageKey.toString(),
       'order': '-sys.createdAt',
       'select': [
         'fields.title',

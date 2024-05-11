@@ -5,43 +5,76 @@ import 'package:contentful/contentful.dart';
 import 'package:blog_app/services/blog_service.dart';
 import 'package:blog_app/widgets/post_summary_section.dart';
 import 'package:blog_app/models/blog.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class PostsScreen extends StatefulWidget {
+class PostsScreen extends StatelessWidget {
   const PostsScreen({super.key});
 
   @override
-  _PostsScreenState createState() => _PostsScreenState();
+  Widget build(BuildContext context) {
+    return const BlogApp(
+      body: IndexedStack(children: [PostListView()]),
+    );
+  }
 }
 
-class _PostsScreenState extends State<PostsScreen> {
+class PostListView extends StatefulWidget {
+  const PostListView({super.key});
 
-  List<PostSummarySection> posts = [];
+  @override
+  _PostListViewState createState() => _PostListViewState();
+}
+
+class _PostListViewState extends State<PostListView> {
+  static const _pageSize = 3;
 
   final service = BlogService(Client(
       BearerTokenHTTPClient(dotenv.env['CONTENTFUL_API_KEY']!),
       spaceId: dotenv.env['CONTENTFUL_SPACE_ID']!));
 
-  void fetchData() async {
-    List<PostSummary> items = await service.getPostsSummaries();
-    setState(() {
-      posts =
-          items.map((item) => PostSummarySection(postSummary: item)).toList();
-    });
-  }
+  final PagingController<int, PostSummary> _pagingController =
+      PagingController(firstPageKey: 0);
 
   @override
   void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
     super.initState();
-    fetchData();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      print('Loading page ${pageKey ~/ _pageSize}');
+      final List<PostSummary> items =
+          await service.getPostsSummaries(pageKey, _pageSize);
+      final isLastPage = items.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(items);
+      } else {
+        final nextPageKey = pageKey + items.length;
+        _pagingController.appendPage(items, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    return BlogApp(body: SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: posts,
-      ),
-    ));
+  Widget build(BuildContext context) => PagedListView<int, PostSummary>(
+        pagingController: _pagingController,
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        builderDelegate: PagedChildBuilderDelegate<PostSummary>(
+          itemBuilder: (context, item, index) => PostSummarySection(
+            summary: item,
+          ),
+        ),
+      );
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 }
