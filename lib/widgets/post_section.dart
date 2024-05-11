@@ -6,15 +6,6 @@ import 'package:blog_app/widgets/title_section.dart';
 import 'package:blog_app/models/blog.dart';
 import 'cover_section.dart';
 
-// var options = {
-//   renderMark: RenderMark defaultMarkRenderers = RenderMark({
-//     [MARKS.BOLD.value]: () => CustomBoldTextStyle, // returns TextStyle
-//   }),
-//   renderNode: RenderNode defaultNodeRenderers = RenderNode({
-//     [BLOCKS.PARAGRAPH.value]: (node, next) => CustomParagraph(next: next(node.content))
-//   })
-// };
-
 class PostSection extends StatelessWidget {
   PostSection({super.key, this.post});
 
