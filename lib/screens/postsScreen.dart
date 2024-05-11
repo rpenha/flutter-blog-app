@@ -1,4 +1,4 @@
-import 'package:blog_app/widgets/BlogApp.dart';
+import 'package:blog_app/widgets/blogApp.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:contentful/contentful.dart';
