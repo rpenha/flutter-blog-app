@@ -1,4 +1,5 @@
 import 'package:blog_app/screens/posts_screen.dart';
+import 'package:blog_app/services/favorites_service.dart';
 import 'package:blog_app/widgets/blog_app.dart';
 import 'package:blog_app/widgets/post_section.dart';
 import 'package:flutter/material.dart';
@@ -18,16 +19,16 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  Widget? postSection;
+  Post? post;
 
-  final service = BlogService(Client(
+  final blogService = BlogService(Client(
       BearerTokenHTTPClient(dotenv.env['CONTENTFUL_API_KEY']!),
       spaceId: dotenv.env['CONTENTFUL_SPACE_ID']!));
 
   void fetchData() async {
-    Post post = await service.getPostById(widget.postId);
+    Post loaded = await blogService.getPostById(widget.postId);
     setState(() {
-      postSection = PostSection(post: post);
+      post = loaded;
     });
   }
 
@@ -39,27 +40,48 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return postSection != null
+    return post != null
         ? BlogApp(
-            body: postSection!,
-            bottomAppBar: const PostBottomAppBar(urlToShare: 'https://blog.rpenha.net/',),
-          )
+            body: PostSection(post: post),
+            bottomAppBar: PostBottomAppBar(post: post!))
         : Container();
   }
 }
 
 class PostBottomAppBar extends StatefulWidget {
-  final String urlToShare; // URL to share
+  final Post post;
 
-  const PostBottomAppBar({super.key, required this.urlToShare});
+  PostBottomAppBar({super.key, required this.post});
 
   @override
   _PostBottomAppBarState createState() => _PostBottomAppBarState();
 }
 
 class _PostBottomAppBarState extends State<PostBottomAppBar> {
+  final FavoritesService favoritesService = FavoritesService();
+  late bool _isFavorite;
+
+  static Uri _getPostUri(Post post) {
+    return Uri.parse('https://blog.rpenha.net/${post.fields!.slug}');
+  }
+
   Future<void> _share() async {
-    await Share.shareUri(Uri.parse(widget.urlToShare));
+    await Share.shareUri(_getPostUri(widget.post));
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      String postId = widget.post.sys!.id;
+      favoritesService.toggleFavorite(postId);
+      _isFavorite = favoritesService.containsFavorite(postId);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    String postId = widget.post.sys!.id;
+    _isFavorite = favoritesService.containsFavorite(postId);
   }
 
   @override
@@ -81,10 +103,12 @@ class _PostBottomAppBarState extends State<PostBottomAppBar> {
               )
             },
           ),
-          // IconButton(
-          //   icon: const Icon(Icons.favorite_border),
-          //   onPressed: () => {}, // Handle button press
-          // ),
+          IconButton(
+              icon: _isFavorite
+                  ? const Icon(Icons.favorite,
+                      color: Color.fromRGBO(163, 0, 0, 1))
+                  : const Icon(Icons.favorite_border),
+              onPressed: () => _toggleFavorite()),
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: _share,
