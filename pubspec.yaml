@@ -55,8 +55,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
   build_runner: ^2.4.7
   json_serializable: ^6.8.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -106,3 +108,22 @@ flutter:
         - asset: assets/fonts/JetBrainsMono-VariableFont_wght.ttf
         - asset: assets/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf
           style: italic
+
+flutter_launcher_icons:
+  android: 'launcher_icon'
+  ios: true
+  image_path: 'assets/images/couch-solid.png'
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  web:
+    generate: true
+    image_path: 'assets/images/couch-solid.png'
+    background_color: '#eeeeee'
+    theme_color: '#555555'
+  windows:
+    generate: true
+    image_path: 'assets/images/couch-solid.png'
+    icon_size: 64 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: 'assets/images/couch-solid.png'
