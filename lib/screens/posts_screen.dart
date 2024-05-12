@@ -66,6 +66,7 @@ class _PostListViewState extends State<PostListView> {
 
   @override
   Widget build(BuildContext context) => RefreshIndicator(
+      color: const Color.fromRGBO(85, 85, 85, 1),
       onRefresh: () => Future.sync(
             () => _pagingController.refresh(),
           ),
