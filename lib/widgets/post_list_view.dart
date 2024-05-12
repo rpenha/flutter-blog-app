@@ -3,7 +3,6 @@ import 'package:blog_app/widgets/post_summary_section.dart';
 import 'package:contentful/client.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
