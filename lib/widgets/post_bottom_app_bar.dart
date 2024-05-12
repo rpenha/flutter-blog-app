@@ -15,7 +15,7 @@ class PostBottomAppBar extends StatefulWidget {
 
 class _PostBottomAppBarState extends State<PostBottomAppBar> {
   final FavoritesService favoritesService = FavoritesService();
-  late bool _isFavorite;
+  bool _isFavorite = false;
 
   static Uri _getPostUri(Post post) {
     return Uri.parse('https://blog.rpenha.net/${post.fields!.slug}');
@@ -25,19 +25,22 @@ class _PostBottomAppBarState extends State<PostBottomAppBar> {
     await Share.shareUri(_getPostUri(widget.post));
   }
 
-  void _toggleFavorite() {
+  Future<void> _setFavorite() async {
+    String postId = widget.post.sys!.id;
+    bool isFavorite = await favoritesService.containsFavorite(postId);
     setState(() {
-      String postId = widget.post.sys!.id;
-      favoritesService.toggleFavorite(postId);
-      _isFavorite = favoritesService.containsFavorite(postId);
+      _isFavorite = isFavorite;
     });
+  }
+
+  Future<void> _toggleFavorite() async {
+    String postId = widget.post.sys!.id;
+    await favoritesService.toggleFavorite(postId);
   }
 
   @override
   void initState() {
     super.initState();
-    String postId = widget.post.sys!.id;
-    _isFavorite = favoritesService.containsFavorite(postId);
   }
 
   @override
@@ -59,12 +62,16 @@ class _PostBottomAppBarState extends State<PostBottomAppBar> {
               )
             },
           ),
-          IconButton(
-              icon: _isFavorite
-                  ? const Icon(Icons.favorite,
-                  color: Color.fromRGBO(163, 0, 0, 1))
-                  : const Icon(Icons.favorite_border),
-              onPressed: () => _toggleFavorite()),
+          FutureBuilder(future: _setFavorite(), builder: (context, snapshot) {
+            return IconButton(
+                icon: _isFavorite
+                    ? const Icon(Icons.favorite,
+                    color: Color.fromRGBO(163, 0, 0, 1))
+                    : const Icon(Icons.favorite_border),
+                onPressed: () async {
+                  _toggleFavorite();
+                });
+          }),
           IconButton(
             icon: const Icon(Icons.share),
             onPressed: _share,
