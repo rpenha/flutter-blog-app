@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BlogApp extends StatelessWidget {
-  const BlogApp({super.key, required this.body, this.bottomAppBar});
+  const BlogApp({super.key, required Widget body, Widget? bottomAppBar}) : _bottomAppBar = bottomAppBar, _body = body;
 
-  final Widget body;
-  final Widget? bottomAppBar;
+  final Widget _body;
+  final Widget? _bottomAppBar;
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +17,11 @@ class BlogApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color.fromRGBO(238, 238, 238, 1),
         ),
         home: Scaffold(
-          bottomNavigationBar: bottomAppBar,
+          bottomNavigationBar: _bottomAppBar,
           // appBar: AppBar(
           //   title: const Text(appTitle),
           // ),
-          body: body,
+          body: _body,
         ));
   }
 }

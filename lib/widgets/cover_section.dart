@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 
 class CoverSection extends StatelessWidget {
-  const CoverSection({super.key, required this.image});
+  const CoverSection({super.key, required String image}) : _image = image;
 
-  final String image;
+  final String _image;
 
   static String getImageUrl(String image) {
     return 'https:$image';
@@ -11,7 +11,7 @@ class CoverSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String url = getImageUrl(image);
+    String url = getImageUrl(_image);
     return Image.network(
       url,
       fit: BoxFit.cover,

@@ -6,9 +6,10 @@ import 'package:blog_app/models/blog.dart';
 import 'cover_section.dart';
 
 class PostSummarySection extends StatelessWidget {
-  const PostSummarySection({super.key, required this.summary});
+  const PostSummarySection({super.key, required PostSummary summary})
+      : _summary = summary;
 
-  final PostSummary summary;
+  final PostSummary _summary;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +18,12 @@ class PostSummarySection extends StatelessWidget {
       children: [
         Column(
           children: [
-            CoverSection(image: summary.fields!.cover.fields!.file.url),
+            CoverSection(image: _summary.fields!.cover.fields!.file.url),
             TitleSection(
-              title: summary.fields!.title,
-              author: summary.fields!.author.fields!.name,
-              summary: summary.fields!.summary,
-              createdAt: summary.sys!.createdAt,
+              title: _summary.fields!.title,
+              author: _summary.fields!.author.fields!.name,
+              summary: _summary.fields!.summary,
+              createdAt: _summary.sys!.createdAt,
             ),
             Padding(
                 padding: const EdgeInsets.only(bottom: 32),
@@ -33,7 +34,7 @@ class PostSummarySection extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                PostScreen(postId: summary.sys!.id)),
+                                PostScreen(postId: _summary.sys!.id)),
                       );
                     }))
           ],

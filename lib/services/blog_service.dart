@@ -2,11 +2,11 @@ import 'package:contentful/contentful.dart';
 import 'package:blog_app/models/blog.dart' show Post, PostSummary;
 
 class BlogService {
-  BlogService(this.contentful);
-  final Client contentful;
+  BlogService(this._contentful);
+  final Client _contentful;
 
   Future<List<PostSummary>> getPostsSummaries(pageKey, size) async {
-    final collection = await contentful.getEntries<PostSummary>({
+    final collection = await _contentful.getEntries<PostSummary>({
       'content_type': 'post',
       'limit': size.toString(),
       'skip': pageKey.toString(),
@@ -26,7 +26,7 @@ class BlogService {
   }
 
   Future<Post> getPostById(String id) async {
-    final collection = await contentful.getEntries<Post>({
+    final collection = await _contentful.getEntries<Post>({
       'content_type': 'post',
       'sys.id': id,
       'limit': '1',

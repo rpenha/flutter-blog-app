@@ -7,9 +7,9 @@ import 'package:blog_app/models/blog.dart';
 import 'cover_section.dart';
 
 class PostSection extends StatelessWidget {
-  PostSection({super.key, this.post});
+  PostSection({super.key, Post? post}) : _post = post;
 
-  final Post? post;
+  final Post? _post;
 
   final Options options = Options(
       renderNode: RenderNode({
@@ -18,38 +18,36 @@ class PostSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return post != null
+    return _post != null
         ? SingleChildScrollView(
-            child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  CoverSection(image: post!.fields!.cover.fields!.file.url),
-                  TitleSection(
-                    title: post!.fields!.title,
-                    author: post!.fields!.author.fields!.name,
-                    summary: post!.fields!.summary,
-                    createdAt: post!.sys!.createdAt,
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
-                      child: ContentfulRichText(post!.fields!.body,
-                              options: options)
-                          .documentToWidgetTree)
-                ],
-              )
-            ]
-          ))
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Column(
+              children: [
+                CoverSection(image: _post.fields!.cover.fields!.file.url),
+                TitleSection(
+                  title: _post.fields!.title,
+                  author: _post.fields!.author.fields!.name,
+                  summary: _post.fields!.summary,
+                  createdAt: _post.sys!.createdAt,
+                ),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(32, 8, 32, 8),
+                    child:
+                        ContentfulRichText(_post.fields!.body, options: options)
+                            .documentToWidgetTree)
+              ],
+            )
+          ]))
         : Container();
   }
 }
 
 class CustomParagraph extends StatelessWidget {
-  final dynamic node;
-  final Next next;
+  final dynamic _node;
+  final Next _next;
 
-  const CustomParagraph(this.node, this.next, {super.key});
+  const CustomParagraph(this._node, this._next, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +60,7 @@ class CustomParagraph extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                children: next(node['content']),
+                children: _next(_node['content']),
               ),
             ],
           ),
