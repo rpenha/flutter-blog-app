@@ -18,7 +18,7 @@ class _PostBottomAppBarState extends State<PostBottomAppBar> {
   bool _isFavorite = false;
 
   static Uri _getPostUri(Post post) {
-    return Uri.parse('https://blog.rpenha.net/${post.fields!.slug}');
+    return Uri.parse('https://blog.rpenha.net/posts/${post.fields!.slug}');
   }
 
   Future<void> _share() async {
